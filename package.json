@@ -1,0 +1,26 @@
+{
+  "name": "next-authkit-example",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@radix-ui/themes": "^2.0.0-rc.3",
+    "@types/node": "20.6.2",
+    "@types/react": "18.2.22",
+    "@types/react-dom": "18.2.7",
+    "@workos-inc/node": "^3.7.0",
+    "eslint": "8.49.0",
+    "eslint-config-next": "13.4.19",
+    "jose": "^4.14.6",
+    "next": "13.4.19",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-query": "^3.39.3",
+    "typescript": "5.2.2"
+  }
+}
