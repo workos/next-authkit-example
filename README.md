@@ -18,9 +18,7 @@ npm install
 
 ## Getting started with WorkOS
 
-Sign up for a [WorkOS account](https://dashboard.workos.com/signup), log in, then go to the `configuration` tab on the left and copy the Client ID.
-
-Next, navigate to the API keys tab and grab a secret key.
+Sign up for a [WorkOS account](https://dashboard.workos.com/signup), log in, navigate to the API keys tab and copy the _Client ID_ and the _Secret Key_.
 
 Rename the `.env.local.example` file to `.env.local` and supply your Client ID and API key.
 
