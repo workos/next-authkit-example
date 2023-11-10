@@ -1,6 +1,6 @@
 import { SignJWT } from "jose";
 import { NextRequest, NextResponse } from "next/server";
-import { getJwtSecretKey, workos, getClientId } from "../../../auth";
+import { getJwtSecretKey, workos, getClientId } from "../../auth";
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");

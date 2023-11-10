@@ -4,7 +4,7 @@ export async function Footer() {
   return (
     <Grid columns={{ initial: "1", sm: "3" }} gap="5">
       <Card size="4" asChild variant="classic">
-        <a href="https://workos.com/docs">
+        <a href="https://workos.com/docs" rel="noreferrer" target="_blank">
           <Heading size="4" mb="1">
             Documentation
           </Heading>
@@ -14,7 +14,11 @@ export async function Footer() {
         </a>
       </Card>
       <Card size="4" asChild variant="classic">
-        <a href="https://workos.com/docs/reference">
+        <a
+          href="https://workos.com/docs/reference"
+          rel="noreferrer"
+          target="_blank"
+        >
           <Heading size="4" mb="1">
             API Reference
           </Heading>
@@ -24,7 +28,7 @@ export async function Footer() {
         </a>
       </Card>
       <Card size="4" asChild variant="classic">
-        <a href="https://workos.com">
+        <a href="https://workos.com" rel="noreferrer" target="_blank">
           <Heading size="4" mb="1">
             WorkOS
           </Heading>

@@ -21,7 +21,7 @@ export async function getAuthorizationUrl() {
     provider: "authkit",
     clientID: getClientId(),
     // The endpoint that WorkOS will redirect to after a user authenticates
-    redirectURI: "http://localhost:3000/api/callback",
+    redirectURI: "http://localhost:3000/callback",
   });
 
   return authorizationUrl;
