@@ -64,7 +64,7 @@ export async function getUser(): Promise<{
   return { isAuthenticated: false };
 }
 
-export async function clearSessionAndRedirect() {
+export async function clearCookie() {
   cookies().delete("token");
   redirect("/");
 }

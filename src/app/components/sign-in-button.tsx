@@ -1,8 +1,4 @@
-import {
-  clearSessionAndRedirect,
-  getAuthorizationUrl,
-  getUser,
-} from "../../auth";
+import { clearCookie, getAuthorizationUrl, getUser } from "../../auth";
 import { Button, Flex } from "@radix-ui/themes";
 
 export async function SignInButton({ large }: { large?: boolean }) {
@@ -15,7 +11,7 @@ export async function SignInButton({ large }: { large?: boolean }) {
         <form
           action={async () => {
             "use server";
-            await clearSessionAndRedirect();
+            await clearCookie();
           }}
         >
           <Button type="submit" size={large ? "3" : "2"}>
