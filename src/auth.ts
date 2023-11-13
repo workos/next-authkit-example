@@ -34,7 +34,7 @@ export function getJwtSecretKey() {
     throw new Error("JWT_SECRET_KEY is not set");
   }
 
-  return new TextEncoder().encode(secret);
+  return new Uint8Array(Buffer.from(secret, "base64"));
 }
 
 export async function verifyJwtToken(token: string) {
