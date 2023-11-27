@@ -9,11 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@radix-ui/themes": "^2.0.0-rc.3",
+    "@radix-ui/themes": "^2.0.1",
     "@types/node": "20.6.2",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
-    "@workos-inc/node": "^3.7.0",
+    "@workos-inc/node": "^4.0.0",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
     "jose": "^4.14.6",
