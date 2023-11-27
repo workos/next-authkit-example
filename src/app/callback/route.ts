@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   if (code) {
     try {
       // Use the code returned to us by AuthKit and authenticate the user with WorkOS
-      const { user } = await workos.users.authenticateWithCode({
+      const { user } = await workos.userManagement.authenticateWithCode({
         clientId: getClientId(),
         code,
       });

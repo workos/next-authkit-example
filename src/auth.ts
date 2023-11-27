@@ -17,11 +17,11 @@ export function getClientId() {
 }
 
 export async function getAuthorizationUrl() {
-  const authorizationUrl = workos.sso.getAuthorizationURL({
+  const authorizationUrl = workos.userManagement.getAuthorizationURL({
     provider: "authkit",
-    clientID: getClientId(),
+    clientId: getClientId(),
     // The endpoint that WorkOS will redirect to after a user authenticates
-    redirectURI: "http://localhost:3000/callback",
+    redirectUri: "http://localhost:3000/callback",
   });
 
   return authorizationUrl;
