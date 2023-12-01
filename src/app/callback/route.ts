@@ -37,6 +37,8 @@ export async function GET(request: NextRequest) {
         value: token,
         path: "/",
         httpOnly: true,
+        secure: true,
+        sameSite: "lax",
       });
 
       return response;
