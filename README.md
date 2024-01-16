@@ -21,7 +21,7 @@ cd next-authkit-example && npm install
 
 ### Create a redirect URI in WorkOS
 
-Sign up for a [WorkOS account](https://dashboard.workos.com/signup) or [sign in](https://dashboard.workos.com/signin?redirect=/get-started) if you already have an account. In the [WorkOS dashboard](https://dashboard.workos.com), head to the Redirects tab and create a [Sign-in callback redirect](https://workos.com/docs/user-management/1-configure-your-project/configure-a-redirect-uri) for `http://localhost:3000/callback`.
+Sign up for a [WorkOS account](https://dashboard.workos.com/signup) or [sign in](https://dashboard.workos.com/signin?redirect=/get-started) if you already have an account. In the [WorkOS dashboard](https://dashboard.workos.com), head to the Redirects tab and create a [sign-in callback redirect](https://workos.com/docs/user-management/1-configure-your-project/configure-a-redirect-uri) for `http://localhost:3000/callback`.
 
 ### Set up environment variables
 
