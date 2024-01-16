@@ -9,13 +9,14 @@ An example application demonstrating how to authenticate users with AuthKit and 
 To get started, clone the repo:
 
 ```bash
-git clone https://github.com/workos/next-authkit-example.git
+
+git clone git@github.com:workos/next-authkit-example.git
 ```
 
 Navigate to the cloned repo and install the dependencies:
 
 ```bash
-npm install
+cd next-authkit-example && npm install
 ```
 
 ### Create a redirect URI in WorkOS
