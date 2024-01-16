@@ -27,7 +27,7 @@ export async function getAuthorizationUrl() {
     provider: "authkit",
     clientId: getClientId(),
     // The endpoint that WorkOS will redirect to after a user authenticates
-    redirectUri,
+    redirectURI: redirectUri,
   });
 
   return authorizationUrl;
