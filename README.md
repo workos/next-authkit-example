@@ -4,48 +4,41 @@ An example application demonstrating how to authenticate users with AuthKit and 
 
 > Refer to the [User Management](https://workos.com/docs/user-management) documentation for reference.
 
-## Project setup
+## Prerequisites
 
-To get started, clone the repo:
+You will need a [WorkOS account](https://dashboard.workos.com/signup).
 
-```bash
+## Running the example
 
-git clone git@github.com:workos/next-authkit-example.git
-```
+1.  Create a redirect URI in WorkOS
 
-Navigate to the cloned repo and install the dependencies:
+    In the [WorkOS dashboard](https://dashboard.workos.com), head to the Redirects tab and create a [sign-in callback redirect](https://workos.com/docs/user-management/1-configure-your-project/configure-a-redirect-uri) for `http://localhost:3000/callback`.
 
-```bash
-cd next-authkit-example && npm install
-```
+2.  Set up environment variables
 
-### Create a redirect URI in WorkOS
+    After creating the redirect URI, navigate to the API keys tab and copy the _Client ID_ and the _Secret Key_. Rename the `.env.local.example` file to `.env.local` and supply your Client ID and API key as environment variables.
 
-Sign up for a [WorkOS account](https://dashboard.workos.com/signup) or [sign in](https://dashboard.workos.com/signin?redirect=/get-started) if you already have an account. In the [WorkOS dashboard](https://dashboard.workos.com), head to the Redirects tab and create a [sign-in callback redirect](https://workos.com/docs/user-management/1-configure-your-project/configure-a-redirect-uri) for `http://localhost:3000/callback`.
+3.  Create a signing secret
 
-### Set up environment variables
+    Additionally, [create a signing secret](https://workos.com/docs/user-management/3-handle-the-user-session/create-a-signing-secret) by running the below command. Copy the output into the environment variable `JWT_SECRET_KEY`.
 
-After creating the redirect URI, navigate to the API keys tab and copy the _Client ID_ and the _Secret Key_. Rename the `.env.local.example` file to `.env.local` and supply your Client ID and API key as environment variables.
+    ```bash
+    node -e "console.log(require('crypto').randomBytes(64).toString('base64'));"
+    ```
 
-Additionally, [create a signing secret](https://workos.com/docs/user-management/3-handle-the-user-session/create-a-signing-secret) by running the below command. Copy the output into the environment variable `JWT_SECRET_KEY`.
+    Your `.env.local` file should have the following variables filled.
 
-```bash
-node -e "console.log(require('crypto').randomBytes(64).toString('base64'));"
-```
+    ```bash
+    WORKOS_CLIENT_ID=<YOUR_CLIENT_ID>
+    WORKOS_API_KEY=<YOUR_API_SECRET_KEY>
+    WORKOS_REDIRECT_URI=http://localhost:3000/callback
+    JWT_SECRET_KEY=<YOUR_JWT_SECRET_KEY>
+    ```
 
-Your `.env.local` file should have the following variables filled.
+4.  Start the development environment
 
-```bash
-WORKOS_CLIENT_ID=<YOUR_CLIENT_ID>
-WORKOS_API_KEY=<YOUR_API_SECRET_KEY>
-WORKOS_REDIRECT_URI=http://localhost:3000/callback
-JWT_SECRET_KEY=<YOUR_JWT_SECRET_KEY>
-```
+    Run the following command and navigate to [http://localhost:3000](http://localhost:3000).
 
-### Run the development environment
-
-Finally, start the development environment and navigate to http://localhost:3000.
-
-```bash
-npm run dev
-```
+    ```bash
+    npm run dev
+    ```
