@@ -43,10 +43,11 @@ export async function GET(request: NextRequest) {
 
       return response;
     } catch (error) {
-      console.error(error);
-      return NextResponse.json({
+      const errorRes = {
         error: error instanceof Error ? error.message : String(error),
-      });
+      };
+      console.error(errorRes);
+      return NextResponse.json(errorRes);
     }
   }
 
