@@ -2,28 +2,35 @@
 
 An example application demonstrating how to authenticate users with AuthKit and the WorkOS Node SDK.
 
-## Project setup
+> Refer to the [User Management](https://workos.com/docs/user-management) documentation for reference.
 
-To get started, clone the repo:
+## Prerequisites
 
-```bash
-git clone https://github.com/workos/next-authkit-example.git
-```
+You will need a [WorkOS account](https://dashboard.workos.com/signup).
 
-Navigate to the cloned repo and install the dependencies:
+## Running the example
 
-```bash
-npm install
-```
+1. In the [WorkOS dashboard](https://dashboard.workos.com), head to the Redirects tab and create a [sign-in callback redirect](https://workos.com/docs/user-management/1-configure-your-project/configure-a-redirect-uri) for `http://localhost:3000/callback`.
 
-## Getting started with WorkOS
+2. After creating the redirect URI, navigate to the API keys tab and copy the _Client ID_ and the _Secret Key_. Rename the `.env.local.example` file to `.env.local` and supply your Client ID and API key as environment variables.
 
-Sign up for a [WorkOS account](https://dashboard.workos.com/signup), log in, navigate to the API keys tab and copy the _Client ID_ and the _Secret Key_.
+3. Additionally, [create a signing secret](https://workos.com/docs/user-management/3-handle-the-user-session/create-a-signing-secret) by running the below command. Copy the output into the environment variable `JWT_SECRET_KEY`.
 
-Rename the `.env.local.example` file to `.env.local` and supply your Client ID and API key.
+   ```bash
+   node -e "console.log(require('crypto').randomBytes(64).toString('base64'));"
+   ```
 
-Finally, start the development environment and navigate to http://localhost:3000.
+4. Verify your `.env.local` file has the following variables filled.
 
-```bash
-npm run dev
-```
+   ```bash
+   WORKOS_CLIENT_ID=<YOUR_CLIENT_ID>
+   WORKOS_API_KEY=<YOUR_API_SECRET_KEY>
+   WORKOS_REDIRECT_URI=http://localhost:3000/callback
+   JWT_SECRET_KEY=<YOUR_JWT_SECRET_KEY>
+   ```
+
+5. Run the following command and navigate to [http://localhost:3000](http://localhost:3000).
+
+   ```bash
+   npm run dev
+   ```
