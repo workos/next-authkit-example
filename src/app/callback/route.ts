@@ -44,7 +44,9 @@ export async function GET(request: NextRequest) {
       return response;
     } catch (error) {
       console.error(error);
-      return NextResponse.json(error);
+      return NextResponse.json({
+        error: error instanceof Error ? error.message : String(error),
+      });
     }
   }
 
