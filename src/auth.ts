@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import WorkOS, { User } from "@workos-inc/node";
 import { jwtVerify } from "jose";
+import { getIronSession } from "iron-session";
 
 // Initialize the WorkOS client
 export const workos = new WorkOS(process.env.WORKOS_API_KEY);
@@ -43,6 +44,30 @@ export function getJwtSecretKey() {
   return new Uint8Array(Buffer.from(secret, "base64"));
 }
 
+interface Session {
+  accessToken: string;
+  refreshToken: string;
+  user: User;
+}
+
+export async function getSession() {
+  const cookiePassword = process.env.COOKIE_PASSWORD;
+  if (!cookiePassword) {
+    throw new Error("COOKIE_PASSWORD is not set");
+  }
+
+  return getIronSession<Session>(cookies(), {
+    password: cookiePassword,
+    cookieName: "wos-session",
+    cookieOptions: {
+      path: "/",
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+    },
+  });
+}
+
 export async function verifyJwtToken(token: string) {
   try {
     const { payload } = await jwtVerify(token, getJwtSecretKey());
@@ -53,24 +78,40 @@ export async function verifyJwtToken(token: string) {
   }
 }
 
+export async function verifyAccessToken(accessToken: string) {
+  // this would really look something like:
+  //
+  //  const verified = workos.userManagement.verifyAccessToken(accessToken);
+  //
+  // The SDK function would be responsible for validating the
+  // accessToken (maybe we'd have a helper to handle expired
+  // tokens and refresh automatically?)
+  //
+  // Who is responsible for getting/caching the JWKS? does
+  // the SDK do that?
+
+  return true;
+}
+
 export async function getUser(): Promise<{
   isAuthenticated: boolean;
   user?: User | null;
 }> {
-  const token = cookies().get("token")?.value;
-  const verifiedToken = token && (await verifyJwtToken(token));
+  const session = await getSession();
+  const verifiedToken = session.accessToken && (await verifyAccessToken(session.accessToken));
 
   if (verifiedToken) {
     return {
       isAuthenticated: true,
-      user: verifiedToken.user as User | null,
+      user: session.user,
     };
   }
 
   return { isAuthenticated: false };
 }
 
-export async function clearCookie() {
-  cookies().delete("token");
+export async function signOut() {
+  const session = await getSession();
+  session.destroy();
   redirect("/");
 }

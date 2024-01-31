@@ -1,6 +1,6 @@
-import { SignJWT } from "jose";
 import { NextRequest, NextResponse } from "next/server";
-import { getJwtSecretKey, workos, getClientId } from "../../auth";
+import { getJwtSecretKey, workos, getClientId, getSession } from "../../auth";
+import type { User } from "@workos-inc/node";
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
@@ -8,20 +8,11 @@ export async function GET(request: NextRequest) {
   if (code) {
     try {
       // Use the code returned to us by AuthKit and authenticate the user with WorkOS
-      const { user } = await workos.userManagement.authenticateWithCode({
-        clientId: getClientId(),
-        code,
-      });
-
-      // Create a JWT token with the user's information
-      const token = await new SignJWT({
-        // Here you might lookup and retrieve user details from your database
-        user,
-      })
-        .setProtectedHeader({ alg: "HS256", typ: "JWT" })
-        .setIssuedAt()
-        .setExpirationTime("1h")
-        .sign(getJwtSecretKey());
+      const { user, organizationId, accessToken, refreshToken } =
+        await workos.userManagement.authenticateWithCode({
+          clientId: getClientId(),
+          code,
+        });
 
       const url = request.nextUrl.clone();
 
@@ -32,14 +23,11 @@ export async function GET(request: NextRequest) {
       url.pathname = "/";
       const response = NextResponse.redirect(url);
 
-      response.cookies.set({
-        name: "token",
-        value: token,
-        path: "/",
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax",
-      });
+      const session = await getSession()
+      session.accessToken = accessToken;
+      session.refreshToken = refreshToken;
+      session.user = user;
+      await session.save();
 
       return response;
     } catch (error) {
