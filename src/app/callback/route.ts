@@ -51,7 +51,5 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  return NextResponse.json({
-    error: "No authorization code was received from AuthKit",
-  });
+  return NextResponse.redirect(new URL("/callback/error", request.url));
 }
