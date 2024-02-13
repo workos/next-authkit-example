@@ -51,5 +51,5 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  return NextResponse.redirect(new URL("/callback/error", request.url));
+  return NextResponse.redirect(new URL("/error", request.url));
 }
