@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
         error: error instanceof Error ? error.message : String(error),
       };
       console.error(errorRes);
-      return NextResponse.json(errorRes);
+      return NextResponse.redirect(new URL("/error", request.url));
     }
   }
 
