@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/themes": "^2.0.1",
     "@workos-inc/node": "^5.0.0",
     "jose": "^5.1.1",
