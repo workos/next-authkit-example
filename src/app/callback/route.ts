@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getJwtSecretKey, workos, getClientId, getSession } from "../../auth";
+import {
+  encryptSession,
+  cookieName,
+  cookieOptions,
+  authenticateWithCode,
+} from "../../auth";
 import type { User } from "@workos-inc/node";
+import { cookies } from "next/headers";
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
@@ -9,10 +15,7 @@ export async function GET(request: NextRequest) {
     try {
       // Use the code returned to us by AuthKit and authenticate the user with WorkOS
       const { user, organizationId, accessToken, refreshToken } =
-        await workos.userManagement.authenticateWithCode({
-          clientId: getClientId(),
-          code,
-        });
+        await authenticateWithCode(code);
 
       const url = request.nextUrl.clone();
 
@@ -23,11 +26,14 @@ export async function GET(request: NextRequest) {
       url.pathname = "/";
       const response = NextResponse.redirect(url);
 
-      const session = await getSession()
-      session.accessToken = accessToken;
-      session.refreshToken = refreshToken;
-      session.user = user;
-      await session.save();
+      if (!accessToken || !refreshToken)
+        throw new Error("response is missing tokens");
+
+      cookies().set(
+        cookieName,
+        await encryptSession({ accessToken, refreshToken, user }),
+        cookieOptions
+      );
 
       return response;
     } catch (error) {

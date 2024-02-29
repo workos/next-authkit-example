@@ -2,13 +2,13 @@ import { Button, Flex, Heading, Text } from "@radix-ui/themes";
 import NextLink from "next/link";
 import { SignInButton } from "./components/sign-in-button";
 import { getUser } from "../auth";
+import { headers } from "next/headers";
 
 export default async function HomePage() {
-  const { isAuthenticated, user } = await getUser();
-
+  const { user } = await getUser();
   return (
     <Flex direction="column" align="center" gap="2">
-      {isAuthenticated ? (
+      {user ? (
         <>
           <Heading size="8">
             Welcome back{user?.firstName && `, ${user?.firstName}`}

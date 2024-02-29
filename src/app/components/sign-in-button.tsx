@@ -2,10 +2,10 @@ import { getAuthorizationUrl, getUser, signOut } from "../../auth";
 import { Button, Flex } from "@radix-ui/themes";
 
 export async function SignInButton({ large }: { large?: boolean }) {
-  const { isAuthenticated } = await getUser();
+  const { user } = await getUser();
   const authorizationUrl = await getAuthorizationUrl();
 
-  if (isAuthenticated) {
+  if (user) {
     return (
       <Flex gap="3">
         <form
