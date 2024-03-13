@@ -1,13 +1,11 @@
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import WorkOS, { User } from "@workos-inc/node";
-import { jwtVerify } from "jose";
-import { getIronSession, sealData, unsealData } from "iron-session";
-import * as jose from "jose";
+import { jwtVerify, createRemoteJWKSet } from "jose";
+import { sealData, unsealData } from "iron-session";
 import { NextRequest, NextResponse } from "next/server";
-import { JWTExpired } from "jose/errors";
 
-const JWKS = jose.createRemoteJWKSet(
+const JWKS = createRemoteJWKSet(
   new URL("http://localhost:7000/sso/jwks/project_01DZB0E7HQMA6G85PQNHQJMZD0")
 );
 
@@ -74,7 +72,7 @@ async function getSessionFromCookie() {
 
 export async function verifyAccessToken(accessToken: string) {
   try {
-    const { payload } = await jose.jwtVerify(accessToken, JWKS);
+    const { payload } = await jwtVerify(accessToken, JWKS);
     return true;
   } catch (e) {
     console.warn("Failed to verify session:", e);

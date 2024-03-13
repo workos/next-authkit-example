@@ -5,7 +5,6 @@ import {
   cookieOptions,
   authenticateWithCode,
 } from "../../auth";
-import type { User } from "@workos-inc/node";
 import { cookies } from "next/headers";
 
 export async function GET(request: NextRequest) {
@@ -14,8 +13,9 @@ export async function GET(request: NextRequest) {
   if (code) {
     try {
       // Use the code returned to us by AuthKit and authenticate the user with WorkOS
-      const { user, organizationId, accessToken, refreshToken } =
-        await authenticateWithCode(code);
+      const { user, accessToken, refreshToken } = await authenticateWithCode(
+        code
+      );
 
       const url = request.nextUrl.clone();
 
