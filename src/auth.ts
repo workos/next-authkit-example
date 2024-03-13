@@ -1,16 +1,17 @@
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import WorkOS, { User } from "@workos-inc/node";
-import { jwtVerify, createRemoteJWKSet } from "jose";
+import { jwtVerify, createRemoteJWKSet, decodeJwt } from "jose";
 import { sealData, unsealData } from "iron-session";
 import { NextRequest, NextResponse } from "next/server";
 
-const JWKS = createRemoteJWKSet(
-  new URL("http://localhost:7000/sso/jwks/project_01DZB0E7HQMA6G85PQNHQJMZD0")
-);
-
 // Initialize the WorkOS client
 export const workos = new WorkOS(process.env.WORKOS_API_KEY);
+
+// const jwksUrl = workos.userManagement.getJwksUrl(process.env.WORKOS_CLIENT_ID);
+const JWKS = createRemoteJWKSet(
+  new URL(`https://api.workos.com/sso/jwks/${process.env.WORKOS_CLIENT_ID}`)
+);
 
 export function getClientId() {
   const clientId = process.env.WORKOS_CLIENT_ID;
@@ -93,8 +94,9 @@ export async function getUser(): Promise<UserInfo | NoUserInfo> {
   const session = await getSessionFromHeader();
   if (!session) return { user: null };
 
-  const { sid: sessionId, org_id: organizationId } =
-    jose.decodeJwt<AccessToken>(session.accessToken);
+  const { sid: sessionId, org_id: organizationId } = decodeJwt<AccessToken>(
+    session.accessToken
+  );
 
   return {
     user: session.user,
