@@ -1,17 +1,51 @@
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
-import WorkOS, { User } from "@workos-inc/node";
+import WorkOS from "@workos-inc/node";
 import { jwtVerify, createRemoteJWKSet, decodeJwt } from "jose";
 import { sealData, unsealData } from "iron-session";
 import { NextRequest, NextResponse } from "next/server";
+import { Session, UserInfo, NoUserInfo, AccessToken } from "./interfaces";
+
+// Cookie parameters
+export const cookieName = "wos-session";
+export const cookieOptions = {
+  path: "/",
+  httpOnly: true,
+  secure: true,
+  sameSite: "lax" as const,
+};
 
 // Initialize the WorkOS client
-export const workos = new WorkOS(process.env.WORKOS_API_KEY);
+const workos = new WorkOS(process.env.WORKOS_API_KEY);
 
 // const jwksUrl = workos.userManagement.getJwksUrl(process.env.WORKOS_CLIENT_ID);
 const JWKS = createRemoteJWKSet(
-  new URL(`https://api.workos.com/sso/jwks/${process.env.WORKOS_CLIENT_ID}`)
+  new URL(`https://api.workos.com/sso/jwks/${getClientId()}`)
 );
+
+async function getSessionFromCookie() {
+  const cookie = cookies().get("wos-session");
+  if (cookie) {
+    return unsealData<Session>(cookie.value, { password: getCookiePassword() });
+  }
+}
+
+function getCookiePassword() {
+  const cookiePassword = process.env.COOKIE_PASSWORD;
+  if (!cookiePassword) {
+    throw new Error("COOKIE_PASSWORD is not set");
+  }
+  return cookiePassword;
+}
+
+async function getSessionFromHeader(): Promise<Session | undefined> {
+  const authHeader = headers().get("x-workos-session");
+  if (!authHeader) return;
+
+  return unsealData<Session>(authHeader, { password: getCookiePassword() });
+}
+
+/** Exported functions */
 
 export function getClientId() {
   const clientId = process.env.WORKOS_CLIENT_ID;
@@ -40,36 +74,8 @@ export async function getAuthorizationUrl() {
   return authorizationUrl;
 }
 
-interface Session {
-  accessToken: string;
-  refreshToken: string;
-  user: User;
-}
-
-function getCookiePassword() {
-  const cookiePassword = process.env.COOKIE_PASSWORD;
-  if (!cookiePassword) {
-    throw new Error("COOKIE_PASSWORD is not set");
-  }
-  return cookiePassword;
-}
-
-async function getSessionFromHeader(): Promise<Session | undefined> {
-  const authHeader = headers().get("x-workos-session");
-  if (!authHeader) return;
-
-  return unsealData<Session>(authHeader, { password: getCookiePassword() });
-}
-
 export const encryptSession = async (session: Session) =>
   sealData(session, { password: getCookiePassword() });
-
-async function getSessionFromCookie() {
-  const cookie = cookies().get("wos-session");
-  if (cookie) {
-    return unsealData<Session>(cookie.value, { password: getCookiePassword() });
-  }
-}
 
 export async function verifyAccessToken(accessToken: string) {
   try {
@@ -81,15 +87,6 @@ export async function verifyAccessToken(accessToken: string) {
   }
 }
 
-interface UserInfo {
-  user: User;
-  organizationId: string;
-  sessionId: string;
-}
-interface NoUserInfo {
-  user: null;
-  sessionId?: undefined;
-}
 export async function getUser(): Promise<UserInfo | NoUserInfo> {
   const session = await getSessionFromHeader();
   if (!session) return { user: null };
@@ -112,11 +109,6 @@ export async function requireUser(): Promise<UserInfo> {
   }
 
   redirect(await getAuthorizationUrl());
-}
-
-interface AccessToken {
-  sid: string;
-  org_id: string;
 }
 
 export async function authenticateWithCode(code: string) {
@@ -146,19 +138,10 @@ export async function signOut() {
   redirect("/");
 }
 
-export const cookieName = "wos-session";
-
-export const cookieOptions = {
-  path: "/",
-  httpOnly: true,
-  secure: true,
-  sameSite: "lax" as const,
-};
-
 export async function updateSession(request: NextRequest) {
   const session = await getSessionFromCookie();
 
-  // no session case
+  // If no session, just continue
   if (!session) {
     return NextResponse.next();
   }
@@ -181,10 +164,15 @@ export async function updateSession(request: NextRequest) {
 
   try {
     console.log("Session invalid. Attempting refresh");
+
+    // If the session is invalid (i.e. the access token has expired) attempt to re-authenticate with the refresh token
     const { accessToken, refreshToken } = await refreshSession(
       session.refreshToken
     );
+
     console.log("Refresh successful:", refreshToken);
+
+    // Encrypt session with new access and refresh tokens
     const encryptedSession = await encryptSession({
       accessToken,
       refreshToken,

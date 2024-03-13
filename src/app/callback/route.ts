@@ -29,6 +29,8 @@ export async function GET(request: NextRequest) {
       if (!accessToken || !refreshToken)
         throw new Error("response is missing tokens");
 
+      // The refreshToken should never be accesible publicly, hence why we encrypt it in the cookie session
+      // Alternatively you could persist the refresh token in a backend database
       cookies().set(
         cookieName,
         await encryptSession({ accessToken, refreshToken, user }),
@@ -40,7 +42,9 @@ export async function GET(request: NextRequest) {
       const errorRes = {
         error: error instanceof Error ? error.message : String(error),
       };
+
       console.error(errorRes);
+
       return NextResponse.redirect(new URL("/error", request.url));
     }
   }
