@@ -1,8 +1,7 @@
-import { Button, Flex, Heading, Text } from "@radix-ui/themes";
 import NextLink from "next/link";
+import { getUser } from "../temp_node_modules/@workos-inc/nextjs";
+import { Button, Flex, Heading, Text } from "@radix-ui/themes";
 import { SignInButton } from "./components/sign-in-button";
-import { getUser } from "../auth";
-import { headers } from "next/headers";
 
 export default async function HomePage() {
   const { user } = await getUser();

@@ -1,9 +1,13 @@
-import { getAuthorizationUrl, getUser, signOut } from "../../auth";
+import {
+  getSignInUrl,
+  getUser,
+  signOut,
+} from "../../temp_node_modules/@workos-inc/nextjs";
 import { Button, Flex } from "@radix-ui/themes";
 
 export async function SignInButton({ large }: { large?: boolean }) {
   const { user } = await getUser();
-  const authorizationUrl = await getAuthorizationUrl();
+  const authorizationUrl = await getSignInUrl();
 
   if (user) {
     return (
