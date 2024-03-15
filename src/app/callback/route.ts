@@ -1,1 +1,1 @@
-export { authkitCallbackRouteGET as GET } from "../../temp_node_modules/@workos-inc/nextjs";
+export { authkitCallbackRoute as GET } from "@workos-inc/nextjs";

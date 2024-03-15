@@ -1,4 +1,4 @@
-import { getUser } from "../../temp_node_modules/@workos-inc/nextjs";
+import { getUser } from "@workos-inc/nextjs";
 import { Text, Heading, TextFieldInput, Flex, Box } from "@radix-ui/themes";
 
 export default async function AccountPage() {
