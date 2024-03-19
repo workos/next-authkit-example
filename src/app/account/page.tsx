@@ -2,14 +2,15 @@ import { getUser } from "@workos-inc/nextjs";
 import { Text, Heading, TextFieldInput, Flex, Box } from "@radix-ui/themes";
 
 export default async function AccountPage() {
-  const { user } = await getUser({ ensureSignedIn: true });
+  const { user, role } = await getUser({ ensureSignedIn: true });
 
   const userFields = [
     ["First name", user.firstName],
     ["Last name", user.lastName],
     ["Email", user.email],
+    role ? ["Role", role] : [],
     ["Id", user.id],
-  ];
+  ].filter((arr) => arr.length > 0);
 
   return (
     <>
