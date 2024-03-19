@@ -1,17 +1,17 @@
-import { clearCookie, getAuthorizationUrl, getUser } from "../../auth";
+import { getSignInUrl, getUser, signOut } from "@workos-inc/nextjs";
 import { Button, Flex } from "@radix-ui/themes";
 
 export async function SignInButton({ large }: { large?: boolean }) {
-  const { isAuthenticated } = await getUser();
-  const authorizationUrl = await getAuthorizationUrl();
+  const { user } = await getUser();
+  const authorizationUrl = await getSignInUrl();
 
-  if (isAuthenticated) {
+  if (user) {
     return (
       <Flex gap="3">
         <form
           action={async () => {
             "use server";
-            await clearCookie();
+            await signOut();
           }}
         >
           <Button type="submit" size={large ? "3" : "2"}>

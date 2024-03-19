@@ -1,24 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getAuthorizationUrl, verifyJwtToken } from "./auth";
+import { authkitMiddleware } from "@workos-inc/nextjs";
 
-export async function middleware(request: NextRequest) {
-  const { cookies } = request;
-  const { value: token } = cookies.get("token") ?? { value: null };
+export default authkitMiddleware();
 
-  const hasVerifiedToken = token && (await verifyJwtToken(token));
-
-  // Redirect unauthenticated users to the AuthKit flow
-  if (!hasVerifiedToken) {
-    const authorizationUrl = await getAuthorizationUrl();
-    const response = NextResponse.redirect(authorizationUrl);
-
-    response.cookies.delete("token");
-
-    return response;
-  }
-
-  return NextResponse.next();
-}
-
-// Match against the account page
-export const config = { matcher: ["/account/:path*"] };
+// Match against the pages
+export const config = { matcher: ["/", "/account/:path*"] };
