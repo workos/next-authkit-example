@@ -14,11 +14,9 @@ You will need a [WorkOS account](https://dashboard.workos.com/signup).
 
 2. After creating the redirect URI, navigate to the API keys tab and copy the _Client ID_ and the _Secret Key_. Rename the `.env.local.example` file to `.env.local` and supply your Client ID and API key as environment variables.
 
-3. Additionally, [create a signing secret](https://workos.com/docs/user-management/3-handle-the-user-session/create-a-signing-secret) by running the below command. Copy the output into the environment variable `JWT_SECRET_KEY`.
+3. Additionally, create a cookie password as the private key used to encrypt the session cookie. Copy the output into the environment variable `WORKOS_COOKIE_PASSWORD`.
 
-   ```bash
-   node -e "console.log(require('crypto').randomBytes(64).toString('base64'));"
-   ```
+   It has to be at least 32 characters long. You can use https://1password.com/password-generator/ to generate strong passwords.
 
 4. Verify your `.env.local` file has the following variables filled.
 
@@ -26,7 +24,7 @@ You will need a [WorkOS account](https://dashboard.workos.com/signup).
    WORKOS_CLIENT_ID=<YOUR_CLIENT_ID>
    WORKOS_API_KEY=<YOUR_API_SECRET_KEY>
    WORKOS_REDIRECT_URI=http://localhost:3000/callback
-   JWT_SECRET_KEY=<YOUR_JWT_SECRET_KEY>
+   WORKOS_COOKIE_PASSWORD=<YOUR_COOKIE_PASSWORD>
    ```
 
 5. Run the following command and navigate to [http://localhost:3000](http://localhost:3000).
