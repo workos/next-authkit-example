@@ -2,10 +2,11 @@
 import "@radix-ui/themes/styles.css";
 
 import type { Metadata } from "next";
-import { Theme, Card, Container, Flex, Button } from "@radix-ui/themes";
 import NextLink from "next/link";
+import { Theme, Card, Container, Flex, Button, Box } from "@radix-ui/themes";
 import { Footer } from "./components/footer";
 import { SignInButton } from "./components/sign-in-button";
+import { Impersonation } from "@workos-inc/nextjs";
 
 export const metadata: Metadata = {
   title: "Example AuthKit Authenticated App",
@@ -20,46 +21,41 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body style={{ padding: 0, margin: 0 }}>
-        <Theme accentColor="iris" style={{ backgroundColor: "var(--gray-1)" }}>
-          <Container px="5">
-            <Flex align="center" style={{ height: "100vh" }} py="9">
-              <Flex
-                direction="column"
-                style={{
-                  height: "100%",
-                  maxHeight: 850,
-                  minHeight: 500,
-                  width: "100%",
-                }}
-                gap="5"
-              >
-                <Flex grow="1">
-                  <Card size="4" style={{ width: "100%" }}>
-                    <Flex direction="column" height="100%">
-                      <Flex asChild justify="between">
-                        <header>
-                          <Flex gap="4">
-                            <Button asChild variant="soft">
-                              <NextLink href="/">Home</NextLink>
-                            </Button>
+        <Theme
+          accentColor="iris"
+          panelBackground="solid"
+          style={{ backgroundColor: "var(--gray-1)" }}
+        >
+          <Impersonation />
 
-                            <Button asChild variant="soft">
-                              <NextLink href="/account">Account</NextLink>
-                            </Button>
-                          </Flex>
+          <Container style={{ backgroundColor: "var(--gray-1)" }}>
+            <Flex direction="column" gap="5" p="5" height="100vh">
+              <Box asChild flexGrow="1">
+                <Card size="4">
+                  <Flex direction="column" height="100%">
+                    <Flex asChild justify="between">
+                      <header>
+                        <Flex gap="4">
+                          <Button asChild variant="soft">
+                            <NextLink href="/">Home</NextLink>
+                          </Button>
 
-                          <SignInButton />
-                        </header>
-                      </Flex>
+                          <Button asChild variant="soft">
+                            <NextLink href="/account">Account</NextLink>
+                          </Button>
+                        </Flex>
 
-                      <Flex grow="1" align="center" justify="center">
-                        <main>{children}</main>
-                      </Flex>
+                        <SignInButton />
+                      </header>
                     </Flex>
-                  </Card>
-                </Flex>
-                <Footer />
-              </Flex>
+
+                    <Flex flexGrow="1" align="center" justify="center">
+                      <main>{children}</main>
+                    </Flex>
+                  </Flex>
+                </Card>
+              </Box>
+              <Footer />
             </Flex>
           </Container>
         </Theme>

@@ -24,12 +24,7 @@ export default async function AccountPage() {
       </Flex>
 
       {userFields && (
-        <Flex
-          direction="column"
-          gap="3"
-          style={{ width: 400 }}
-          justify="center"
-        >
+        <Flex direction="column" justify="center" gap="3" width="400px">
           {userFields.map(([label, value]) => (
             <Flex asChild align="center" gap="6" key={value}>
               <label>
@@ -37,7 +32,7 @@ export default async function AccountPage() {
                   {label}
                 </Text>
 
-                <Box grow="1">
+                <Box flexGrow="1">
                   <TextFieldInput value={value || ""} readOnly />
                 </Box>
               </label>
