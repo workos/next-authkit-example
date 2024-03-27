@@ -6,7 +6,7 @@ import NextLink from "next/link";
 import { Theme, Card, Container, Flex, Button, Box } from "@radix-ui/themes";
 import { Footer } from "./components/footer";
 import { SignInButton } from "./components/sign-in-button";
-import { Impersonation } from "@workos-inc/nextjs";
+import { Impersonation } from "@workos-inc/authkit-nextjs";
 
 export const metadata: Metadata = {
   title: "Example AuthKit Authenticated App",

@@ -1,1 +1,3 @@
-export { authkitCallbackRoute as GET } from "@workos-inc/nextjs";
+import { handleAuth } from "@workos-inc/authkit-nextjs";
+
+export const GET = handleAuth();
