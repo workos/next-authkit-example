@@ -1,5 +1,5 @@
 import NextLink from "next/link";
-import { getUser } from "@workos-inc/nextjs";
+import { getUser } from "@workos-inc/authkit-nextjs";
 import { Button, Flex, Heading, Text } from "@radix-ui/themes";
 import { SignInButton } from "./components/sign-in-button";
 

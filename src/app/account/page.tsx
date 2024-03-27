@@ -1,5 +1,5 @@
-import { getUser } from "@workos-inc/nextjs";
-import { Text, Heading, TextFieldInput, Flex, Box } from "@radix-ui/themes";
+import { getUser } from "@workos-inc/authkit-nextjs";
+import { Text, Heading, TextField, Flex, Box } from "@radix-ui/themes";
 
 export default async function AccountPage() {
   const { user, role } = await getUser({ ensureSignedIn: true });
@@ -33,7 +33,7 @@ export default async function AccountPage() {
                 </Text>
 
                 <Box flexGrow="1">
-                  <TextFieldInput value={value || ""} readOnly />
+                  <TextField.Root value={value || ""} readOnly />
                 </Box>
               </label>
             </Flex>

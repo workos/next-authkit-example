@@ -1,4 +1,4 @@
-import { getSignInUrl, getUser, signOut } from "@workos-inc/nextjs";
+import { getSignInUrl, getUser, signOut } from "@workos-inc/authkit-nextjs";
 import { Button, Flex } from "@radix-ui/themes";
 
 export async function SignInButton({ large }: { large?: boolean }) {
