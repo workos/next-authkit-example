@@ -1,9 +1,14 @@
-import { getSignInUrl, getUser, signOut } from "@workos-inc/authkit-nextjs";
+import {
+  getSignInUrl,
+  getSignUpUrl,
+  getUser,
+  signOut,
+} from "@workos-inc/authkit-nextjs";
+
 import { Button, Flex } from "@radix-ui/themes";
 
 export async function SignInButton({ large }: { large?: boolean }) {
   const { user } = await getUser();
-  const authorizationUrl = await getSignInUrl();
 
   if (user) {
     return (
@@ -22,9 +27,17 @@ export async function SignInButton({ large }: { large?: boolean }) {
     );
   }
 
+  const signInUrl = await getSignInUrl();
+  const signUpUrl = await getSignUpUrl();
+
   return (
-    <Button asChild size={large ? "3" : "2"}>
-      <a href={authorizationUrl}>Sign In {large && "with AuthKit"}</a>
-    </Button>
+    <Flex gap="3">
+      <Button asChild size={large ? "3" : "2"}>
+        <a href={signInUrl}>Sign In {large && "with AuthKit"}</a>
+      </Button>
+      <Button asChild size={large ? "3" : "2"}>
+        <a href={signUpUrl}>Sign Up {large && "with AuthKit"}</a>
+      </Button>
+    </Flex>
   );
 }
