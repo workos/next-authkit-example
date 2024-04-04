@@ -28,7 +28,5 @@
     "relative-deps": "^1.0.7",
     "typescript": "^5"
   },
-  "relativeDependencies": {
-    "@workos-inc/authkit-nextjs": "../authkit-nextjs"
-  }
+  "relativeDependencies": {}
 }
