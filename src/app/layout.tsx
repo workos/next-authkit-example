@@ -7,6 +7,7 @@ import { Theme, Card, Container, Flex, Button, Box } from "@radix-ui/themes";
 import { Footer } from "./components/footer";
 import { SignInButton } from "./components/sign-in-button";
 import { Impersonation } from "@workos-inc/authkit-nextjs";
+import { ProtectedComponent } from "./components/protected-component";
 
 export const metadata: Metadata = {
   title: "Example AuthKit Authenticated App",
@@ -43,6 +44,12 @@ export default function RootLayout({
                           <Button asChild variant="soft">
                             <NextLink href="/account">Account</NextLink>
                           </Button>
+
+                          <ProtectedComponent permission={"users:view"}>
+                            <Button asChild variant="soft">
+                              <NextLink href="/users">Users</NextLink>
+                            </Button>
+                          </ProtectedComponent>
                         </Flex>
 
                         <SignInButton />
