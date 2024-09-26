@@ -23,8 +23,9 @@ You will need a [WorkOS account](https://dashboard.workos.com/signup).
    ```bash
    WORKOS_CLIENT_ID=<YOUR_CLIENT_ID>
    WORKOS_API_KEY=<YOUR_API_SECRET_KEY>
-   WORKOS_REDIRECT_URI=http://localhost:3000/callback
    WORKOS_COOKIE_PASSWORD=<YOUR_COOKIE_PASSWORD>
+
+   NEXT_PUBLIC_WORKOS_REDIRECT_URI=http://localhost:3000/callback
    ```
 
 5. Run the following command and navigate to [http://localhost:3000](http://localhost:3000).
