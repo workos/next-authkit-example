@@ -1,10 +1,10 @@
 import NextLink from "next/link";
-import { getUser } from "@workos-inc/authkit-nextjs";
+import { withAuth } from "@workos-inc/authkit-nextjs";
 import { Button, Flex, Heading, Text } from "@radix-ui/themes";
 import { SignInButton } from "./components/sign-in-button";
 
 export default async function HomePage() {
-  const { user } = await getUser();
+  const { user } = await withAuth();
   return (
     <Flex direction="column" align="center" gap="2">
       {user ? (
