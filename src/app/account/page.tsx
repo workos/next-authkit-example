@@ -27,14 +27,14 @@ export default async function AccountPage() {
       {userFields && (
         <Flex direction="column" justify="center" gap="3" width="400px">
           {userFields.map(([label, value]) => (
-            <Flex asChild align="center" gap="6" key={value}>
+            <Flex asChild align="center" gap="6" key={String(value)}>
               <label>
                 <Text weight="bold" size="3" style={{ width: 100 }}>
                   {label}
                 </Text>
 
                 <Box flexGrow="1">
-                  <TextField.Root value={value || ""} readOnly />
+                  <TextField.Root value={String(value) || ""} readOnly />
                 </Box>
               </label>
             </Flex>
