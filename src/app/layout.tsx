@@ -44,12 +44,14 @@ export default function RootLayout({
                             <Button asChild variant="soft">
                               <NextLink href="/account">Account</NextLink>
                             </Button>
+                            
+                            <Button asChild variant="soft">
+                              <NextLink href="/admin">Admin</NextLink>
+                            </Button>
                           </Flex>
-
                           <SignInButton />
                         </header>
                       </Flex>
-
                       <Flex flexGrow="1" align="center" justify="center">
                         <main>{children}</main>
                       </Flex>
