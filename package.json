@@ -16,6 +16,7 @@
     "@radix-ui/themes": "^3.1.6",
     "@tanstack/react-query": "^5.62.11",
     "@workos-inc/authkit-nextjs": "^0.13.2",
+    "@workos-inc/node": "^3.4.1",
     "@workos-inc/widgets": "^1.0.1",
     "jwt-decode": "^4.0.0",
     "next": "^15.0.1",
