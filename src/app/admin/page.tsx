@@ -27,26 +27,39 @@ export default async function AdminPage() {
 
   return (
     <>
-      <Flex direction="column" gap="2" mb="4">
-        <Heading size="8" align="center">
-          Admin Settings
-        </Heading>
-        <Text size="5" align="left" color="gray">
-          Team Management
-        </Text>
-      </Flex>
+      {session?.role === "admin" ? (
+        <>
+          <Flex direction="column" gap="2" mb="4">
+            <Heading size="8" align="center">
+              Admin Settings
+            </Heading>
+            <Text size="5" align="left" color="gray">
+              Team Management
+            </Text>
+          </Flex>
 
-      {UsersTable(authToken)}
-      
-      {session?.organizationId && (
-        <Flex direction="column" gap="2" mb="7" pt="6">
-          <Text size="5" align="left" color="gray" mb="4">
-            Enterprise Connections
+          {UsersTable(authToken)}
+          
+          {session?.organizationId && (
+            <Flex direction="column" gap="2" mb="7" pt="6">
+              <Text size="5" align="left" color="gray" mb="4">
+                Enterprise Connections
+              </Text>
+              <Grid columns={{ initial: "1", sm: "3" }} gap={{ initial: "3", sm: "5" }}>
+                <PortalButton organizationId={session.organizationId} intent="sso" />
+                <PortalButton organizationId={session.organizationId} intent="dsync" />
+              </Grid>
+            </Flex>
+          )}
+        </>
+      ) : (
+        <Flex direction="column" gap="2" mb="4">
+          <Heading size="8" align="center">
+            Admin Settings
+          </Heading>
+          <Text size="5" align="left" color="gray">
+            Only Admin users can access this page.
           </Text>
-          <Grid columns={{ initial: "1", sm: "3" }} gap={{ initial: "3", sm: "5" }}>
-            <PortalButton organizationId={session.organizationId} intent="sso" />
-            <PortalButton organizationId={session.organizationId} intent="dsync" />
-          </Grid>
         </Flex>
       )}
     </>
