@@ -3,7 +3,7 @@
 import { Card, Heading, Text } from "@radix-ui/themes";
 
 // Option 2: Using union type (recommended)
-type PortalIntent = "sso" | "dsync";
+type PortalIntent = "sso" | "dsync" | "audit_logs";
 
 interface PortalButtonProps {
   organizationId: string;
@@ -45,6 +45,11 @@ export default function PortalButton({ organizationId, intent }: PortalButtonPro
         return {
           heading: "Configure SCIM",
           text: "Set up or manage your SCIM configuration"
+        };
+      case "audit_logs":
+        return {
+          heading: "View Audit Logs",
+          text: "Manage your Audit Logs configuration"
         };
     }
   };

@@ -48,6 +48,7 @@ export default async function AdminPage() {
               <Grid columns={{ initial: "1", sm: "3" }} gap={{ initial: "3", sm: "5" }}>
                 <PortalButton organizationId={session.organizationId} intent="sso" />
                 <PortalButton organizationId={session.organizationId} intent="dsync" />
+                <PortalButton organizationId={session.organizationId} intent="audit_logs" />
               </Grid>
             </Flex>
           )}

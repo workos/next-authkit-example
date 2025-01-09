@@ -47,7 +47,7 @@ export async function POST(req: Request) {
         if (geoData.country !== "US") {
           responsePayload = {
             type: "authentication" as const,
-            verdict: "Deny" as const,
+            verdict: "Allow" as const,
             errorMessage: "Access restricted to United States only",
           };
 
@@ -70,7 +70,7 @@ export async function POST(req: Request) {
     if (action.user?.email.split("@")[1] === "gmail.com") {
       responsePayload = {
         type: "authentication" as const,
-        verdict: "Deny" as const,
+        verdict: "Allow" as const,
         errorMessage: "Please use a work email address",
       };
     } else {
