@@ -6,7 +6,10 @@ import NextLink from "next/link";
 import { Theme, Card, Container, Flex, Button, Box } from "@radix-ui/themes";
 import { Footer } from "./components/footer";
 import { SignInButton } from "./components/sign-in-button";
-import { AuthKitProvider, Impersonation } from "@workos-inc/authkit-nextjs";
+import {
+  AuthKitProvider,
+  Impersonation,
+} from "@workos-inc/authkit-nextjs/components";
 
 export const metadata: Metadata = {
   title: "Example AuthKit Authenticated App",
@@ -26,9 +29,8 @@ export default function RootLayout({
           panelBackground="solid"
           style={{ backgroundColor: "var(--gray-1)" }}
         >
-          <Impersonation />
-
           <AuthKitProvider>
+            <Impersonation />
             <Container style={{ backgroundColor: "var(--gray-1)" }}>
               <Flex direction="column" gap="5" p="5" height="100vh">
                 <Box asChild flexGrow="1">
