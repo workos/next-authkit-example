@@ -5,12 +5,12 @@ export default async function AccountPage() {
   const { user, role, permissions } = await withAuth({ ensureSignedIn: true });
 
   const userFields = [
-    ["First name", user.firstName],
-    ["Last name", user.lastName],
-    ["Email", user.email],
+    ["First name", user?.firstName],
+    ["Last name", user?.lastName],
+    ["Email", user?.email],
     role ? ["Role", role] : [],
     permissions ? ["Permissions", permissions] : [],
-    ["Id", user.id],
+    ["Id", user?.id],
   ].filter((arr) => arr.length > 0);
 
   return (
