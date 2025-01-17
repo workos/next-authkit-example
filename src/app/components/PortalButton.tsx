@@ -1,8 +1,9 @@
 'use client';
 
 import { Card, Heading, Text } from "@radix-ui/themes";
+import React from 'react';
 
-// Option 2: Using union type (recommended)
+
 type PortalIntent = "sso" | "dsync" | "audit_logs";
 
 interface PortalButtonProps {
@@ -10,7 +11,46 @@ interface PortalButtonProps {
   intent: PortalIntent;
 }
 
+let ssoEnabled = false;
+export async function checkSSOStatus(organizationId: string) {
+  try {
+    const response = await fetch(`/api/admin/list-connections?organizationId=${organizationId}`);
+    const data = await response.json();
+    return data.ssoEnabled;
+  } catch (error) {
+    console.error('Error listing connections:', error);
+    return false;
+  }
+}
+
+export async function checkDSyncStatus(organizationId: string) {
+  try {
+    const response = await fetch(`/api/admin/list-directories?organizationId=${organizationId}`);
+    const data = await response.json();
+    return data.dsyncEnabled;
+  } catch (error) {
+    console.error('Error listing connections:', error);
+    return false;
+  }
+}
+
 export default function PortalButton({ organizationId, intent }: PortalButtonProps) {
+  const [isSSOEnabled, setIsSSOEnabled] = React.useState(false);
+  const [isDSyncEnabled, setIsDSyncEnabled] = React.useState(false);
+
+  React.useEffect(() => {
+    const fetchSSOStatus = async () => {
+      const status = await checkSSOStatus(organizationId);
+      setIsSSOEnabled(status);
+    };
+    fetchSSOStatus();
+    const fetchDSyncStatus = async () => {
+      const status = await checkDSyncStatus(organizationId);
+      setIsDSyncEnabled(status);
+    };
+    fetchDSyncStatus();
+  }, [organizationId]);
+
   const handlePortalClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     try {
@@ -38,13 +78,13 @@ export default function PortalButton({ organizationId, intent }: PortalButtonPro
     switch (intent) {
       case "sso":
         return {
-          heading: "Configure SSO",
-          text: "Set or manage your SSO configuration"
+          heading: isSSOEnabled ? "Manage SSO" : "Configure SSO",
+          text: isSSOEnabled ? "Update your SSO settings" : "Set up Single Sign-On"
         };
       case "dsync":
         return {
-          heading: "Configure SCIM",
-          text: "Set up or manage your SCIM configuration"
+          heading: isDSyncEnabled ? "Manage SCIM" : "Configure SCIM",
+          text: isDSyncEnabled ? "Update your SCIM settings" : "Set up SCIM"
         };
       case "audit_logs":
         return {
