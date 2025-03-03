@@ -52,9 +52,38 @@ export const GET = async (request: NextRequest) => {
     });
   } catch (error) {
     console.error(`Request ${requestId} error:`, error);
+
+    // Special handling for refresh token errors to make them easier to detect
+    let errorMessage = error instanceof Error ? error.message : "Unknown error";
+    const errorObj = error as any;
+
+    if (
+      errorObj &&
+      errorObj.error === "invalid_grant" &&
+      errorObj.errorDescription &&
+      errorObj.errorDescription.includes("Refresh token already exchanged")
+    ) {
+      console.warn(
+        `Request ${requestId} HIT THE RACE CONDITION: Refresh token already exchanged`,
+      );
+
+      return NextResponse.json(
+        {
+          error: `Request ${requestId}: Refresh token already exchanged.`,
+          details: errorObj,
+        },
+        { status: 401 },
+      );
+    }
+
+    // Check if the error object has nested information (common in OAuth errors)
+    if (errorObj && errorObj.rawData) {
+      errorMessage = `${errorMessage}. Details: ${JSON.stringify(errorObj.rawData)}`;
+    }
+
     return NextResponse.json(
       {
-        error: `Request ${requestId}: ${error instanceof Error ? error.message : "Unknown error"}`,
+        error: `Request ${requestId}: ${errorMessage}`,
       },
       { status: 500 },
     );
