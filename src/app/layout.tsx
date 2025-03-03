@@ -46,6 +46,12 @@ export default function RootLayout({
                             <Button asChild variant="soft">
                               <NextLink href="/account">Account</NextLink>
                             </Button>
+
+                            <Button asChild variant="soft" color="orange">
+                              <NextLink href="/test-concurrent">
+                                Test Token Refresh
+                              </NextLink>
+                            </Button>
                           </Flex>
 
                           <SignInButton />
