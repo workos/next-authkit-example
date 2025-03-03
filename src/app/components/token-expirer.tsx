@@ -2,34 +2,23 @@
 
 import { useState } from "react";
 import { Button, Text, Flex, Box, Card } from "@radix-ui/themes";
+import { expireTokenAction } from "../actions/expire-token";
 
 export function TokenExpirer() {
   const [status, setStatus] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const expireToken = () => {
+  const expireToken = async () => {
     try {
-      // Get the WorkOS cookie
-      const cookies = document.cookie.split(";");
-      const workosCookie = cookies.find((cookie) =>
-        cookie.trim().startsWith("wos-session="),
-      );
-
-      console.log("WorkOS Cookie:", workosCookie);
-
-      if (!workosCookie) {
-        setStatus("No WorkOS session cookie found. Please sign in first.");
-        return;
-      }
-
-      // Create an expired version by setting its expiry to the past
-      document.cookie = `${workosCookie.trim()}; max-age=0; path=/`;
-      setStatus(
-        "Session cookie has been expired. Try the concurrent requests now.",
-      );
+      setLoading(true);
+      const result = await expireTokenAction();
+      setStatus(result.message);
     } catch (error) {
       setStatus(
         `Error: ${error instanceof Error ? error.message : "Unknown error"}`,
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,8 +35,8 @@ export function TokenExpirer() {
         </Text>
 
         <Box>
-          <Button color="red" onClick={expireToken} size="2">
-            Expire Auth Token
+          <Button color="red" onClick={expireToken} size="2" disabled={loading}>
+            {loading ? "Expiring..." : "Expire Auth Token"}
           </Button>
         </Box>
 

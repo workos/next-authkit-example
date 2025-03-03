@@ -11,12 +11,19 @@ export const GET = async (request: NextRequest) => {
   const requestId = request.nextUrl.searchParams.get("id") || "unknown";
 
   try {
-    // Add a random delay between 100-500ms to simulate network conditions
-    const delay = Math.floor(Math.random() * 400) + 100;
-    await artificialDelay(delay);
+    // Create significant and varied delays to simulate different network conditions
+    // This increases the chance of concurrent token refresh attempts
+    const initialDelay =
+      Math.floor(Math.random() * 200) + parseInt(requestId as string) * 100;
+    console.log(
+      `Request ${requestId} starting with initial delay of ${initialDelay}ms`,
+    );
+    await artificialDelay(initialDelay);
 
     // Use authkit to verify the user is authenticated
-    const { session } = await authkit(request);
+    const { session } = await authkit(request, {
+      debug: true, // Enable debug for this request
+    });
 
     if (!session || !session.user) {
       return NextResponse.json(
@@ -25,8 +32,13 @@ export const GET = async (request: NextRequest) => {
       );
     }
 
-    // Add another delay after authentication to increase the chance of race conditions
-    await artificialDelay(Math.floor(Math.random() * 300) + 200);
+    // Add another substantial delay after authentication
+    // This gives other concurrent requests time to attempt token refresh
+    const secondDelay = Math.floor(Math.random() * 500) + 300;
+    console.log(
+      `Request ${requestId} continuing with second delay of ${secondDelay}ms`,
+    );
+    await artificialDelay(secondDelay);
 
     // Return success response
     return NextResponse.json({
