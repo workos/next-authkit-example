@@ -21,6 +21,12 @@ interface WorkerFixtures {
   // Worker-scoped fixtures could go here if needed
 }
 
+const COOKIE_NAME = process.env.WORKOS_COOKIE_NAME || "wos-session";
+
+const COOKIE_DOMAIN = process.env.TEST_BASE_URL
+  ? new URL(process.env.TEST_BASE_URL).hostname
+  : "localhost";
+
 async function authenticateUser(
   email: string,
   password: string,
@@ -105,14 +111,14 @@ async function authenticateUser(
         : [responseCookies];
 
       for (const cookieString of cookieStrings) {
-        if (cookieString && cookieString.includes("wos-session")) {
-          const [nameValue, ...attributes] = cookieString.split(";");
+        if (cookieString && cookieString.includes(COOKIE_NAME)) {
+          const [nameValue] = cookieString.split(";");
           const [name, value] = nameValue.split("=");
 
           const cookie = {
             name: name.trim(),
             value: value.trim(),
-            domain: "localhost",
+            domain: COOKIE_DOMAIN,
             path: "/",
             httpOnly: true,
             secure: false,
@@ -131,7 +137,7 @@ async function authenticateUser(
         await context.addCookies(cookies);
         console.log(`Authenticated and cached user: ${email}`);
       } else {
-        throw new Error("No wos-session cookie found in response");
+        throw new Error(`No ${COOKIE_NAME} cookie found in response`);
       }
     } else {
       throw new Error("No Set-Cookie header found in response");

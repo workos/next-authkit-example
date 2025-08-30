@@ -63,7 +63,7 @@ Cypress.Commands.add("login", (username: string, password: string) => {
           expect(response.status).to.eq(200);
           cy.log("Session saved successfully");
 
-          // The endpoint sets the wos-session cookie
+          // The endpoint sets the cookie
           // Cypress handles cookies from cy.request responses automatically
         });
       });
