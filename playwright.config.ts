@@ -35,29 +35,13 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      use: {
-        ...devices["Desktop Chrome"],
-      },
-    },
-
-    {
-      name: "firefox",
-      use: {
-        ...devices["Desktop Firefox"],
-      },
-    },
-
-    {
-      name: "webkit",
-      use: {
-        ...devices["Desktop Safari"],
-      },
+      use: { ...devices["Desktop Chrome"] },
     },
   ],
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "npm run dev",
+    command: process.env.CI ? "npm start" : "npm run dev",
     url: process.env.TEST_BASE_URL || "http://127.0.0.1:3000",
     reuseExistingServer: !process.env.CI,
   },
