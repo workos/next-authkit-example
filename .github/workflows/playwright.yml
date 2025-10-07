@@ -10,21 +10,15 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.55.0-jammy
+      options: --user 1001
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "npm"
-
       - name: Install dependencies
         run: npm ci
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --only-shell chromium --with-deps
 
       - name: Build Next.js application
         run: npm run build
