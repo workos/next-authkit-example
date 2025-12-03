@@ -8,25 +8,27 @@
     "start": "next start",
     "reset": "rm -rf node_modules && rm -rf .next && npm i",
     "start-local-dev": "rm -rf .next && npm run prepare && npm run dev",
+    "format": "prettier --write .",
     "lint": "next lint",
     "prepare": "relative-deps"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.2",
     "@radix-ui/themes": "^3.2.1",
-    "@workos-inc/authkit-nextjs": "^2.1.0",
-    "next": "^15.2.3",
-    "react": "^18",
-    "react-dom": "^18"
+    "@workos-inc/authkit-nextjs": "^2.12.0",
+    "next": "^16.0.7",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.5",
+    "prettier": "^3.7.4",
     "relative-deps": "^1.0.7",
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   },
   "relativeDependencies": {}
 }
