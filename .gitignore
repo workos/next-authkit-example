@@ -4,9 +4,14 @@
 /node_modules
 /.pnp
 .pnp.js
+.yarn/install-state.gz
 
 # testing
 /coverage
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.auth
 
 # next.js
 /.next/
@@ -26,6 +31,7 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env.test
 
 # vercel
 .vercel
@@ -33,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# cypress
+cypress/videos
+cypress/screenshots
